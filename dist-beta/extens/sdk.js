@@ -37,6 +37,7 @@ Element.prototype.els=function(id){
     $dk.File=$File;
     $dk.upload=upload;
     $dk.download=_download;
+    $dk.sha256=sha256;
     $dk.uid=()=>{
       return Math.random().toString(36).slice(2,8)+Date.now().toString(36);
     }
@@ -876,6 +877,19 @@ Element.prototype.els=function(id){
           }
         });
       }
+    }
+    function sha256(str, algo = "SHA-256") {
+      if(typeof str!="string"){str=JSON.stringify(str)}
+      let strBuf = new TextEncoder().encode(str);
+      return crypto.subtle.digest(algo, strBuf).then(hash=>{
+        window.hash = hash;
+        let result = '';
+        const view = new DataView(hash);
+        for (let i = 0; i < hash.byteLength; i += 4) {
+          result += ('00000000' + view.getUint32(i).toString(16)).slice(-8);
+        }
+        return result;
+      });
     }
   }
 })(window.dk=window.dk||{});
