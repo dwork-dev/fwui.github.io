@@ -523,6 +523,16 @@ Element.prototype.els=function(id){
         return $dk.post(_url+"/public/file/del",{data:{path}},callback);
       }
       /***
+      data: {
+          app: "<app_id>",
+          zid: "<zid file>",
+          filename: "<filename new>"
+      }
+      ***/
+      self.fileRename=(data, callback)=>{
+        return $dk.post(_url+"/public/file/rename",{data},callback);
+      }
+      /***
       path: full path filename
       ***/
       self.folderDel=(path, callback)=>{
