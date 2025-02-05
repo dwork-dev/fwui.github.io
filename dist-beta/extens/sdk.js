@@ -943,3 +943,36 @@ function date2F(d,format){
     return r;
   }
 }
+function dropFile(el,options){
+  options = options||{}
+  el.ondragenter=ondragenter;
+  el.ondragleave=ondragleave;
+  el.ondrop=ondrop;
+  el.ondragover=ondragover;
+  function ondragenter(e){
+    typeof options.start=="function"&&options.start(el);
+  }
+  function ondragleave(e){
+    typeof options.stop=="function"&&options.stop(el);
+  }
+  function ondrop(e){
+    e.preventDefault();
+    var files=[];
+    if (e.dataTransfer.items) {
+      [...e.dataTransfer.items].forEach((item, i) => {
+        if (item.kind === "file") {
+          files.push(item.getAsFile())
+        }
+      });
+    } else {
+      [...e.dataTransfer.files].forEach((file, i) => {
+        files.push(file)
+      });
+    }
+    typeof options.drop=="function"&&options.drop(files);
+  }
+  function ondragover(e){
+    e.preventDefault();
+    typeof options.over=="function"&&options.over(files);
+  }
+}
