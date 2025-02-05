@@ -944,35 +944,56 @@ function date2F(d,format){
   }
 }
 function dropFile(el,options){
-  options = options||{}
+  options = options||{};
+  var input=document.querySelector("input#dropfile");
+  var files=[];
+  if(!input){
+    input=document.createElement("input");
+    input.id="dropfile";
+    input.setAttribute("class","posF z99");
+    input.setAttribute("style","opacity: 1;");
+    input.setAttribute("type","file");
+    input.setAttribute("multiple","");
+    input.setAttribute("webkitdirectory","");
+  }
   el.ondragenter=ondragenter;
-  el.ondragleave=ondragleave;
-  el.ondrop=ondrop;
-  el.ondragover=ondragover;
+  input.ondragleave=ondragleave;
+  input.ondrop=ondrop;
+  input.ondragover=ondragover;
+  input.onchange=()=>{
+    el.changed=0;
+  }
   function ondragenter(e){
+    //e.preventDefault();
+    input.style.width=`${el.offsetWidth}px`;
+    input.style.height=`${el.offsetHeight}px`;
+    input.style.top=`${el.getBoundingClientRect().y}px`;
+    input.style.left=`${el.getBoundingClientRect().x}px`;
+    input.style.display="";
+    el.parentElement.append(input);
     typeof options.start=="function"&&options.start(el);
   }
-  function ondragleave(e){
-    typeof options.stop=="function"&&options.stop(el);
-  }
   function ondrop(e){
-    e.preventDefault();
-    var files=[];
-    if (e.dataTransfer.items) {
-      [...e.dataTransfer.items].forEach((item, i) => {
-        if (item.kind === "file") {
-          files.push(item.getAsFile())
-        }
-      });
-    } else {
-      [...e.dataTransfer.files].forEach((file, i) => {
-        files.push(file)
-      });
+    input.style.display="none";
+    files=[];
+    if(e.dataTransfer.items){
+      [...e.dataTransfer.items].filter(f=>f.kind==="file").map(m=>m.getAsFile()).filter(f=>f.type).forEach(f=>files.push(f))
+    }else if(e.dataTransfer.files){
+      [...e.dataTransfer.files].filter(f=>f.type).forEach(f=>files.push(f));
     }
-    typeof options.drop=="function"&&options.drop(files);
-  }
+    el.changed=1;
+    var c=setInterval(()=>{
+      if(!el.changed || el.changed++>=10){
+        [...input.files].forEach(f=>files.push(f));
+        clearInterval(c);
+        el.changed=0;
+        typeof options.drop=="function"&&options.drop(files);
+      }
+    },100)
+    }
   function ondragover(e){
-    e.preventDefault();
     typeof options.over=="function"&&options.over();
   }
 }
+
+
