@@ -944,60 +944,76 @@ function date2F(d,format){
   }
 }
 function dropFile(el,options){
-  options = options||{};
-  var files=[];
-  if(!window.filedrop){
-    window.filedrop=document.createElement("input");
-    window.filedrop.setAttribute("class","posF z99");
-    window.filedrop.setAttribute("style","opacity: 1;");
-    window.filedrop.setAttribute("type","file");
-    window.filedrop.setAttribute("multiple","");
-    window.filedrop.setAttribute("webkitdirectory","");
-    document.body.append(window.filedrop);
-  }
-  el.ondragenter=ondragenter;
-  window.filedrop.ondragleave=ondragleave;
-  window.filedrop.ondrop=ondrop;
-  window.filedrop.ondragover=ondragover;
-  window.filedrop.onchange=()=>{
-    el.changed=0;
-    window.filedrop.style.display="none";
-  }
-  function ondragleave(e){
-    window.filedrop.style.display="none";
-  }
-  function ondragenter(e){
-    //e.preventDefault();
-    window.filedrop.style.width=`${el.offsetWidth}px`;
-    window.filedrop.style.height=`${el.offsetHeight}px`;
-    window.filedrop.style.top=`${el.getBoundingClientRect().y}px`;
-    window.filedrop.style.left=`${el.getBoundingClientRect().x}px`;
-    window.filedrop.style.display="";
-    el.parentElement.append(window.filedrop);
-    typeof options.start=="function"&&options.start(el);
-  }
-  function ondrop(e){
-    window.filedrop.style.display="none";
-    files=[];
-    if(e.dataTransfer.items){
-      [...e.dataTransfer.items].filter(f=>f.kind==="file").map(m=>m.getAsFile()).filter(f=>f.type).forEach(f=>files.push(f))
-    }else if(e.dataTransfer.files){
-      [...e.dataTransfer.files].filter(f=>f.type).forEach(f=>files.push(f));
+    options = options||{};
+    var files=[];
+    if(!window.filedrop){
+      window.filedrop=document.createElement("input");
+      window.filedrop.setAttribute("class","posF z99");
+      window.filedrop.setAttribute("style","opacity: 0.3;");
+      window.filedrop.setAttribute("type","file");
+      window.filedrop.setAttribute("multiple","");
+      window.filedrop.setAttribute("webkitdirectory","");
+      document.body.append(window.filedrop);
     }
-    el.changed=1;
-    var c=setInterval(()=>{
-      if(!el.changed || el.changed++>=10){
-        [...window.filedrop.files].forEach(f=>files.push(f));
-        clearInterval(c);
-        el.changed=0;
-        typeof options.drop=="function"&&options.drop(files);
-        window.filedrop.value=";"
+    el.ondragenter=ondragenter;
+    el.options = options;
+    window.filedrop.ondragleave=ondragleave;
+    window.filedrop.ondrop=ondrop;
+    window.filedrop.ondragend=ondragend;
+    window.filedrop.ondragover=ondragover;
+    window.filedrop.onchange=()=>{
+      el.changed=0;
+      window.filedrop.style.display="none";
+    }
+    function ondragend(){
+      if(window.filedrop.first_el){
+        typeof window.filedrop.first_el.options.leave=="function"&&window.filedrop.first_el.options.leave();
       }
-    },100)
     }
-  function ondragover(e){
-    typeof options.over=="function"&&options.over();
+    function ondragleave(e){
+      window.filedrop.style.display="none";
+      window.filedrop.first_el="";
+      typeof options.leave=="function"&&options.leave();
+    }
+    function ondragenter(e){
+      //e.preventDefault();
+      window.filedrop.style.width=`${el.offsetWidth}px`;
+      window.filedrop.style.height=`${el.offsetHeight}px`;
+      window.filedrop.style.top=`${el.getBoundingClientRect().y}px`;
+      window.filedrop.style.left=`${el.getBoundingClientRect().x}px`;
+      window.filedrop.style.display="";
+      el.parentElement.append(window.filedrop);
+      if(!window.filedrop.first_el){
+        window.filedrop.first_el = el;
+      }else{
+        typeof window.filedrop.first_el.options.leave=="function"&&window.filedrop.first_el.options.leave();
+        window.filedrop.first_el = el;
+      }
+      typeof options.start=="function"&&options.start(el);
+    }
+    function ondrop(e){
+      window.filedrop.style.display="none";
+      files=[];
+      if(e.dataTransfer.items){
+        [...e.dataTransfer.items].filter(f=>f.kind==="file").map(m=>m.getAsFile()).filter(f=>f.type).forEach(f=>files.push(f))
+      }else if(e.dataTransfer.files){
+        [...e.dataTransfer.files].filter(f=>f.type).forEach(f=>files.push(f));
+      }
+      el.changed=1;
+      var c=setInterval(()=>{
+        if(!el.changed || el.changed++>=10){
+          [...window.filedrop.files].filter(f=>f.type).forEach(f=>files.push(f));
+          clearInterval(c);
+          el.changed=0;
+          typeof options.drop=="function"&&options.drop(files);
+          window.filedrop.value="";
+          typeof options.leave=="function"&&options.leave();
+        }
+      },100);
+    }
+    function ondragover(e){
+      typeof options.over=="function"&&options.over();
+    }
   }
-}
 
 
