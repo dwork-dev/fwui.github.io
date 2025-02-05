@@ -945,41 +945,39 @@ function date2F(d,format){
 }
 function dropFile(el,options){
   options = options||{};
-  var input=document.querySelector("input#dropfile");
   var files=[];
-  if(!input){
-    input=document.createElement("input");
-    input.id="dropfile";
-    input.setAttribute("class","posF z99");
-    input.setAttribute("style","opacity: 1;");
-    input.setAttribute("type","file");
-    input.setAttribute("multiple","");
-    input.setAttribute("webkitdirectory","");
-    document.body.append(input);
+  if(!window.filedrop){
+    window.filedrop=document.createElement("input");
+    window.filedrop.setAttribute("class","posF z99");
+    window.filedrop.setAttribute("style","opacity: 1;");
+    window.filedrop.setAttribute("type","file");
+    window.filedrop.setAttribute("multiple","");
+    window.filedrop.setAttribute("webkitdirectory","");
+    document.body.append(window.filedrop);
   }
   el.ondragenter=ondragenter;
-  input.ondragleave=ondragleave;
-  input.ondrop=ondrop;
-  input.ondragover=ondragover;
-  input.onchange=()=>{
+  window.filedrop.ondragleave=ondragleave;
+  window.filedrop.ondrop=ondrop;
+  window.filedrop.ondragover=ondragover;
+  window.filedrop.onchange=()=>{
     el.changed=0;
-    input.style.display="none";
+    window.filedrop.style.display="none";
   }
   function ondragleave(e){
-    input.style.display="none";
+    window.filedrop.style.display="none";
   }
   function ondragenter(e){
     //e.preventDefault();
-    input.style.width=`${el.offsetWidth}px`;
-    input.style.height=`${el.offsetHeight}px`;
-    input.style.top=`${el.getBoundingClientRect().y}px`;
-    input.style.left=`${el.getBoundingClientRect().x}px`;
-    input.style.display="";
-    el.parentElement.append(input);
+    window.filedrop.style.width=`${el.offsetWidth}px`;
+    window.filedrop.style.height=`${el.offsetHeight}px`;
+    window.filedrop.style.top=`${el.getBoundingClientRect().y}px`;
+    window.filedrop.style.left=`${el.getBoundingClientRect().x}px`;
+    window.filedrop.style.display="";
+    el.parentElement.append(window.filedrop);
     typeof options.start=="function"&&options.start(el);
   }
   function ondrop(e){
-    input.style.display="none";
+    window.filedrop.style.display="none";
     files=[];
     if(e.dataTransfer.items){
       [...e.dataTransfer.items].filter(f=>f.kind==="file").map(m=>m.getAsFile()).filter(f=>f.type).forEach(f=>files.push(f))
@@ -989,10 +987,11 @@ function dropFile(el,options){
     el.changed=1;
     var c=setInterval(()=>{
       if(!el.changed || el.changed++>=10){
-        [...input.files].forEach(f=>files.push(f));
+        [...window.filedrop.files].forEach(f=>files.push(f));
         clearInterval(c);
         el.changed=0;
         typeof options.drop=="function"&&options.drop(files);
+        window.filedrop.value=";"
       }
     },100)
     }
