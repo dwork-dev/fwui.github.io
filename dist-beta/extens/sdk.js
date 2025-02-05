@@ -973,6 +973,6 @@ function dropFile(el,options){
   }
   function ondragover(e){
     e.preventDefault();
-    typeof options.over=="function"&&options.over(files);
+    typeof options.over=="function"&&options.over();
   }
 }
