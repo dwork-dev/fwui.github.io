@@ -955,6 +955,7 @@ function dropFile(el,options){
     input.setAttribute("type","file");
     input.setAttribute("multiple","");
     input.setAttribute("webkitdirectory","");
+    document.body.append(input);
   }
   el.ondragenter=ondragenter;
   input.ondragleave=ondragleave;
@@ -962,6 +963,10 @@ function dropFile(el,options){
   input.ondragover=ondragover;
   input.onchange=()=>{
     el.changed=0;
+    input.style.display="none";
+  }
+  function ondragleave(e){
+    input.style.display="none";
   }
   function ondragenter(e){
     //e.preventDefault();
