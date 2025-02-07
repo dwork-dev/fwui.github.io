@@ -45,7 +45,7 @@ function $el(elname,attrs=[],cbc,cbac){
       try{
         return str&&"{"!=str[0]&&(str=`{${(str||"").replaceAll("\n","").replace(/\s+/g," ")}}`),eval(`rs=${(str||"").replaceAll("\n","")}`),rs
       }catch(e){
-        console.log(e);return rs;
+        console.log(this,e);return rs;
       }
     }
   }
