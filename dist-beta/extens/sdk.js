@@ -719,7 +719,7 @@ Element.prototype.els=function(id){
       /***
       path: full path filename
       ***/
-      self.read=(resource, zid, url, typeFnc, callback)=>{
+      self.read=(resource, zid, typeFnc, callback)=>{
         return $dk.download(_url+`/file/get/${resource}/${zid}`, typeFnc||"", callback);
       }
       /***
