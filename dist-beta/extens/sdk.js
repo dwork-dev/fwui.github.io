@@ -939,6 +939,16 @@ function dataURItoBlob(dataURI) {
   //New Code
   return new Blob([ab], {type: mimeString});
 }
+function blobToDataURL(blob, callback) {
+  return new Promise(rsl=>{
+    var a = new FileReader();
+    a.onload = function(e) {
+      typeof callback=="function" && callback(e.target.result);
+      rsl(e.target.result);
+    }
+    a.readAsDataURL(blob);
+  })
+}
 function date2F(d,format){
   if(d){
     if(["number","string"].includes(typeof d)){
@@ -955,22 +965,6 @@ function date2F(d,format){
     return r;
   }
 }
-/***
-  options: {
-    start: ()=>{
-        console.log("start")
-      },
-      drop: (files)=>{
-        console.log("drop",files)
-      },
-      over: ()=>{
-        //console.log("over")
-      },
-      leave: ()=>{
-        console.log("leave")
-      }
-  }
-***/
 function dropFile(el,options){
   if(el.dropfile){
     return;
@@ -981,7 +975,7 @@ function dropFile(el,options){
   if(!dfm){
     dfm = document.createElement("div");
     document.body.append(dfm);
-    dfm.setAttribute("style","opacity: 0.0;position:fixed;top:0;left:0;width:0;height:0;z-index:9999");
+    dfm.setAttribute("style","opacity: 0.3;position:fixed;top:0;left:0;width:0;height:0;z-index:9999");
   }
   el.dropfile=document.createElement("input");
   dfm.append(el.dropfile);
