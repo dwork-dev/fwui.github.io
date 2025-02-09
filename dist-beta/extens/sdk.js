@@ -975,7 +975,7 @@ function dropFile(el,options){
   if(!dfm){
     dfm = document.createElement("div");
     document.body.append(dfm);
-    dfm.setAttribute("style","opacity: 0.3;position:fixed;top:0;left:0;width:0;height:0;z-index:9999");
+    dfm.setAttribute("style","opacity: 0.0;position:fixed;top:0;left:0;width:0;height:0;z-index:9999");
   }
   el.dropfile=document.createElement("input");
   dfm.append(el.dropfile);
