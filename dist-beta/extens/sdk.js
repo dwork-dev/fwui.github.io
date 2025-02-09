@@ -955,6 +955,22 @@ function date2F(d,format){
     return r;
   }
 }
+/***
+  options: {
+    start: ()=>{
+        console.log("start")
+      },
+      drop: (files)=>{
+        console.log("drop",files)
+      },
+      over: ()=>{
+        //console.log("over")
+      },
+      leave: ()=>{
+        console.log("leave")
+      }
+  }
+***/
 function dropFile(el,options){
   if(el.dropfile){
     return;
