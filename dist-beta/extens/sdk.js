@@ -965,6 +965,25 @@ function date2F(d,format){
     return r;
   }
 }
+/***
+   {
+      start: ()=>{
+        el.classList.add("dragover")
+        console.log("start",event.x,event.y)
+      },
+      drop: (files)=>{
+        el.classList.remove("dragover")
+        console.log("drop",files)
+      },
+      over: ()=>{
+        //console.log("over",event.x,event.y)
+      },
+      leave: ()=>{
+        console.log("leave",el)
+        el.classList.remove("dragover")
+      }
+   }
+***/
 function dropFile(el,options){
   if(el.dropfile){
     return;
