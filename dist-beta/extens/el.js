@@ -44,7 +44,7 @@ function $el(elname,attrs=[],connected,attributeChanged,disconnected){
     options(){
       var str=this.getAttribute("t-options")||"",rs={};
       try{
-        return str&&"{"!=str[0]&&(str=`{${(str||"").replaceAll("\n","").replace(/\s+/g," ")}}`),rs=JSON.parser((str||"").replaceAll("\n","")),rs
+        return str&&"{"!=str[0]&&(str=`{${(str||"").replaceAll("\n","").replace(/\s+/g," ")}}`),eval(`rs=${(str||"").replaceAll("\n","")}`),rs
       }catch(e){
         console.log(this,e);return rs;
       }
