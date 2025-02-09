@@ -16,7 +16,7 @@
     window.$$colors=dcs;
   }
 })();
-function $el(elname,attrs=[],cbc,cbac){
+function $el(elname,attrs=[],connected,attributeChanged,disconnected){
   attrs=attrs||[],"string"==typeof attrs&&(attrs=attrs.split(",").filter((t=>t))),attrs.push("t-options"),attrs=[...new Set(attrs)];
   class MyCustomElement extends HTMLElement{
     static observedAttributes=attrs;constructor(){
@@ -27,18 +27,19 @@ function $el(elname,attrs=[],cbc,cbac){
     }
     connectedCallback(){
       const t=this;
-      "function"==typeof cbc&&cbc(this),setTimeout((()=>{
-        $css?.storeCss(t)
+      "function"==typeof connected&&connected(t),setTimeout((()=>{
+        window.$css?.storeCss(t)
       }))
     }
     disconnectedCallback(){
-      console.log("Custom element removed from page.")
+      const t=this;
+      typeof disconnected=="function"&&disconnected(t);
     }
     adoptedCallback(){
       console.log("Custom element moved to new page.")
     }
     attributeChangedCallback(t,e,s){
-      "function"==typeof cbac&&cbac(this,t,s,e)
+      "function"==typeof attributeChanged&&attributeChanged(this,t,s,e)
     }
     options(){
       var str=this.getAttribute("t-options")||"",rs={};
