@@ -36,7 +36,7 @@ function $el(elname,attrs=[],connected,attributeChanged,disconnected){
       typeof disconnected=="function"&&disconnected(t);
     }
     adoptedCallback(){
-      console.log("Custom element moved to new page.")
+      //console.log("Custom element moved to new page.")
     }
     attributeChangedCallback(t,e,s){
       "function"==typeof attributeChanged&&attributeChanged(this,t,s,e)
