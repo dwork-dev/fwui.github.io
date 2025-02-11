@@ -857,7 +857,7 @@ Element.prototype.els=function(id){
             `,
             width: 400,
             onshown: frm=>{
-              frm.el('[name="btn_signout"]').onclick=()=>{
+              frm.el('.btn_signout').onclick=()=>{
                 self.logout(rs=>{
                   if(rs.status_code==200){
                     location.reload();
