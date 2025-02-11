@@ -247,12 +247,7 @@ Element.prototype.els=function(id){
           }
         }else if(a.type === 'radio'){
           var val = a.value||'';
-          if(!p[a.name] && el.querySelectorAll(`[name=${a.name}]`).length>1){
-            p[a.name]=[];
-          }
-          if(Array.isArray(p[a.name])){
-            p[a.name].push(val);
-          }else{
+          if(a.checked){
             p[a.name]=val;
           }
         }else{
