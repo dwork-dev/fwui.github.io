@@ -1047,5 +1047,10 @@ function dropFile(el,options){
     typeof options.over=="function"&&options.over();
   }
 }
-
+function clone(obj){
+  if(obj && typeof obj=="object"){
+    return JSON.parser(JSON.stringify(obj))
+  }
+  return obj;
+}
 
