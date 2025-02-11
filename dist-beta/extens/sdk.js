@@ -851,7 +851,7 @@ Element.prototype.els=function(id){
                 <div class="">${_user.fullname||_user.username}</div>
               </div>
               <div class="dF">
-                 <x-button t-options="name:'btn_signout',title:'Logout'"></x-button>
+                 <button class="btn_signout">Logout</button>
               </div>
             </div>
             `,
