@@ -1049,7 +1049,7 @@ function dropFile(el,options){
 }
 function clone(obj){
   if(obj && typeof obj=="object"){
-    return JSON.parser(JSON.stringify(obj))
+    return JSON.parse(JSON.stringify(obj))
   }
   return obj;
 }
