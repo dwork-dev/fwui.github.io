@@ -620,7 +620,7 @@ Element.prototype.els=function(id){
         return $dk.post(_url+"/resource-file/acl",{zid,app,data},callback);
       }
     }
-    function Doc(app,resource){
+    function Doc(resource){
       var self=this;
       /*** data={zid} ***/
       self.get=(data, callback)=>{
@@ -691,7 +691,7 @@ Element.prototype.els=function(id){
         return $dk.post(_url+"/doc/del",{resource,...data}, callback);
       }
     }
-    function $File(){
+    function $File(resource){
       var self=this;
       /***
       path: full path filename
@@ -737,7 +737,11 @@ Element.prototype.els=function(id){
       content: text || File || Blob || dataUri()
       ***/
       self.upload=(path,filename,content,callback)=>{
-        return $dk.upload(_url+"/file/upload",path,filename,content,callback);
+        var ps=path.split("/").filter(f=>f);
+        if(resource && ps[0] != resource){
+          ps = [resource,...ps];
+        }
+        return $dk.upload(_url+"/file/upload",ps.join("/"),filename,content,callback);
       }
       /***
       path: path of folder
@@ -745,7 +749,11 @@ Element.prototype.els=function(id){
       content: text content of file
       ***/
       self.createFolder=(path,callback)=>{
-        return $dk.post(_url+"/path/create",{data: {path}},callback);
+        var ps=path.split("/").filter(f=>f);
+        if(resource && ps[0] != resource){
+          ps = [resource,...ps];
+        }
+        return $dk.post(_url+"/path/create",{data: {path: ps.join("/")}},callback);
       }
       /***
       path: full path filename
