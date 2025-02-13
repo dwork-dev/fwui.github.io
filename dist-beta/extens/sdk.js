@@ -364,6 +364,12 @@ Element.prototype.els=function(id){
       self.inviteRevoke=(zid,callback)=>{
         return $dk.post(_url+"/company/invite/revoke", {zid}, callback);
       }
+      /***
+      zid: <invite_id>
+      ***/
+      self.staffBan=(zid,callback)=>{
+        return $dk.post(_url+"/company/staff/ban", {zid}, callback);
+      }
       self.edit=(zid,data,callback)=>{
         return $dk.post(_url+"/company/edit",{zid,data},callback);
       }
@@ -439,6 +445,36 @@ Element.prototype.els=function(id){
             typeof callback=="function" && callback(r);
           })
         })
+      }
+      /***
+      company: <unit_id>
+      zid: <group_id>
+      ***/
+      self.positionGet=(company,zid,callback)=>{
+        return $dk.post(_url+"/position/get",{company,zid},callback);
+      }
+      /***
+      company: <unit_id>
+      ***/
+      self.positionGets=(company,filter,callback)=>{
+        return $dk.post(_url+"/position/gets",{company,filter},callback);
+      }
+      /***
+      company: <unit_id>
+      data: {
+      	zid: "",
+          name: ""
+      }
+      ***/
+      self.positionAdd=(company,data,callback)=>{
+        if(data.zid){
+          return $dk.post(_url+"/position/edit",{company,zid: data.zid,data},callback)
+        }else{
+          return $dk.post(_url+"/position/add",{company,data},callback)
+        }
+      }
+      self.positionDel=(company,zid,callback)=>{
+        return $dk.post(_url+"/position/del",{company,zid},callback);
       }
     }
     function App(company){
