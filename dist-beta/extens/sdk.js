@@ -349,8 +349,8 @@ Element.prototype.els=function(id){
       }
       nếu có company thì owner hoặc manager của company có thể nhìn thấy
       ***/
-      self.inviteGets=(data,callback)=>{
-        return $dk.post(_url+"/company/invite/gets", {...data}, callback);
+      self.inviteGets=(company,filter,callback)=>{
+        return $dk.post(_url+"/company/invite/gets", {company,filter}, callback);
       }
       /***
       zid: <invite_id>
@@ -468,9 +468,9 @@ Element.prototype.els=function(id){
       ***/
       self.positionAdd=(company,data,callback)=>{
         if(data.zid){
-          return $dk.post(_url+"/position/edit",{company,zid: data.zid,data},callback)
+          return $dk.post(_url+"/position/edit",{company, zid: data.zid, data},callback)
         }else{
-          return $dk.post(_url+"/position/add",{company,data},callback)
+          return $dk.post(_url+"/position/add",{company, data},callback)
         }
       }
       self.positionDel=(company,zid,callback)=>{
