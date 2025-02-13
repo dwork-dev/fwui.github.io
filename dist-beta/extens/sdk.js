@@ -885,6 +885,7 @@ Element.prototype.els=function(id){
                       token: rs.data[_token],
                       ...rs.data.user
                     };
+                    typeof cb=="function" && cb(rs.data);
                     //location.reload();
                   }
                   $dlg.error(rs);
