@@ -839,7 +839,7 @@ Element.prototype.els=function(id){
         });
       }
       self.loginF=async(cb)=>{
-        var user=_user||(await self.info()).data||{};
+        var user= (await self.info()).data||{};
         _user=user;
         if(user && user.username!="anonymous"){
           $dlg.form({
