@@ -320,8 +320,8 @@ Element.prototype.els=function(id){
           type: "and"
       }
       ***/
-      self.gets=(filter,callback)=>{
-        return $dk.post(_url+"/company/gets",{filter},callback);
+      self.gets=(data,callback)=>{
+        return $dk.post(_url+"/company/gets",{...data},callback);
       }
       /***
       data: {name:"string",content:"string",...}
@@ -349,8 +349,8 @@ Element.prototype.els=function(id){
       }
       nếu có company thì owner hoặc manager của company có thể nhìn thấy
       ***/
-      self.inviteGets=(company,filter,callback)=>{
-        return $dk.post(_url+"/company/invite/gets", {company,filter}, callback);
+      self.inviteGets=(company,data,callback)=>{
+        return $dk.post(_url+"/company/invite/gets", {company,...data}, callback);
       }
       /***
       zid: <invite_id>
@@ -402,8 +402,8 @@ Element.prototype.els=function(id){
       /***
       company: <unit_id>
       ***/
-      self.groupGets=(company,filter,callback)=>{
-        return $dk.post(_url+"/group/gets",{company,filter},callback);
+      self.groupGets=(company,data,callback)=>{
+        return $dk.post(_url+"/group/gets",{company,...data},callback);
       }
       /***
       company: <unit_id>
@@ -456,8 +456,8 @@ Element.prototype.els=function(id){
       /***
       company: <unit_id>
       ***/
-      self.positionGets=(company,filter,callback)=>{
-        return $dk.post(_url+"/position/gets",{company,filter},callback);
+      self.positionGets=(company,data,callback)=>{
+        return $dk.post(_url+"/position/gets",{company,...data},callback);
       }
       /***
       company: <unit_id>
@@ -485,8 +485,8 @@ Element.prototype.els=function(id){
       self.get=(zid,callback)=>{
         return $dk.post(_url+"/app/get",{company,zid},callback);
       }
-      self.gets=(filter,callback)=>{
-        return $dk.post(_url+"/app/gets",{company,filter},callback);
+      self.gets=(data,callback)=>{
+        return $dk.post(_url+"/app/gets",{company,...data},callback);
       }
       /***
       data: { name: "" }
@@ -601,8 +601,8 @@ Element.prototype.els=function(id){
       self.roleGet=(app,zid,callback)=>{
         return $dk.post(_url+"/role/get",{company,app,zid},callback);
       }
-      self.roleGets=(app,filter,callback)=>{
-        return $dk.post(_url+"/role/gets",{company,app,filter},callback);
+      self.roleGets=(app,data,callback)=>{
+        return $dk.post(_url+"/role/gets",{company,app,...data},callback);
       }
     }
     function Resource(app){
@@ -611,8 +611,8 @@ Element.prototype.els=function(id){
       self.get=(zid,callback)=>{
         return $dk.post(_url+"/resource/get",{app,zid},callback);
       }
-      self.gets=(filter,callback)=>{
-        return $dk.post(_url+"/resource/gets",{app,filter},callback);
+      self.gets=(data,callback)=>{
+        return $dk.post(_url+"/resource/gets",{app,...data},callback);
       }
       /***
       data: {
@@ -643,8 +643,8 @@ Element.prototype.els=function(id){
       self.get=(zid,callback)=>{
         return $dk.post(_url+"/resource-file/get",{app,zid},callback);
       }
-      self.gets=(filter,callback)=>{
-        return $dk.post(_url+"/resource-file/gets",{app,filter},callback);
+      self.gets=(data,callback)=>{
+        return $dk.post(_url+"/resource-file/gets",{app,...data},callback);
       }
       self.add=(data,callback)=>{
         return $dk.post(_url+"/resource-file/add",{app,data},callback);
@@ -662,17 +662,17 @@ Element.prototype.els=function(id){
       self.get=(data, callback)=>{
         return $dk.post(_url+"/doc/get",{resource,...data},callback);
       }
-      /**** params = {filter: {filterRules: []}, limit: 20, page: 1} ****/
-      self.gets=(params,callback)=>{
-        return $dk.post(_url+"/doc/gets",{resource,...params}, callback);
+      /**** data = {filter: {filterRules: []}, limit: 20, page: 1} ****/
+      self.gets=(data,callback)=>{
+        return $dk.post(_url+"/doc/gets",{resource,...data}, callback);
       }
-      /*** params = {data: {<fields of resource>}} ***/
-      self.add=(params,callback)=>{
-        return $dk.post(_url+"/doc/add",{resource,...params}, callback);
+      /*** data = {data: {<fields of resource>}} ***/
+      self.add=(data,callback)=>{
+        return $dk.post(_url+"/doc/add",{resource,...data}, callback);
       }
-      /*** params = {zid, data:{<fields of resource>}} ***/
-      self.edit=(params,callback)=>{
-        return $dk.post(_url+"/doc/edit",{resource,...params}, callback);
+      /*** data = {zid, data:{<fields of resource>}} ***/
+      self.edit=(data,callback)=>{
+        return $dk.post(_url+"/doc/edit",{resource,...data}, callback);
       }
       /*** 
       data = {
