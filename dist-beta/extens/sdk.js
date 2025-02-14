@@ -283,7 +283,9 @@ Element.prototype.els=function(id){
                 setVal(els[i],v);
               })
             }else{
-              setVal(els[0],data[k]);
+              [...els].forEach(i=>{
+                setVal(i,data[k]);
+              })
             }
           }
         }catch(e){console.log("setDataForm err",e)}
