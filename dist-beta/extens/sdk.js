@@ -93,16 +93,22 @@ Element.prototype.els=function(id){
       }
     }
     async function token(value,expire){
-      var v = ((await cookieStore.get(_token))||{}).value;
-      if(value && value!=v && !sortdomain.includes(_domain)){
-        await cookieStore.set({
-          name: _token,
-          value,
-          expires: typeof expire=="undefined"?Date.now()+_token_out:expire,
-          domain: _domain
-        })
+      try{
+        var v = ((await cookieStore.get(_token))||{}).value;
+        if(value && value!=v && !sortdomain.includes(_domain)){
+          await cookieStore.set({
+            name: _token,
+            value,
+            expires: typeof expire=="undefined"?Date.now()+_token_out:expire,
+            domain: _domain
+          })
+        }
+        return value||v;
+      }catch(e){
+        var v = (await $dk.cookie(_token))||"";
+        await $dk.cookie(_token, value);
+        return value||v;
       }
-      return value||v;
     }
     function post (url,params,callback,callbackerror,sync){
       params=params||{};
