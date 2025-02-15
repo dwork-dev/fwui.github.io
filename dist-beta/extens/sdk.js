@@ -849,22 +849,22 @@ Element.prototype.els=function(id){
         return $dk.post(_url+"/os/user",{},callback)
       }
       self.login=(username,password,captcha,callback)=>{
-        return $dk.post("/os/login",{data: {username,password,captcha},_token},callback)
+        return $dk.post(_url+"/os/login",{data: {username,password,captcha},_token},callback)
       }
       self.logout=(callback)=>{
-        return $dk.post("/os/out",{},callback);
+        return $dk.post(_url+"/os/out",{},callback);
       }
       self.reg=(data,callback)=>{
-        return $dk.post("/os/reg",{data},callback);
+        return $dk.post(_url+"/os/reg",{data},callback);
       }
       self.update=(data,callback)=>{
-        return $dk.post("/user/update",{data},callback);
+        return $dk.post(_url+"/user/update",{data},callback);
       }
       self.info=(callback)=>{
-        return $dk.post("/user/info",{},callback);
+        return $dk.post(_url+"/user/info",{},callback);
       }
       self.changepass=(old_password,password,re_password,callback)=>{
-        return $dk.post("/user/changepass",{data:{old_password,password,re_password}},callback);
+        return $dk.post(_url+"/user/changepass",{data:{old_password,password,re_password}},callback);
       }
       self.regF=(cb)=>{
         $dlg.form({
