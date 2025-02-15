@@ -105,8 +105,11 @@ Element.prototype.els=function(id){
         }
         return value||v;
       }catch(e){
+        console.log(e)
         var v = (await $dk.cookie(_token))||"";
-        await $dk.cookie(_token, value);
+        if(value && value!=v){
+          await $dk.cookie(_token, value);
+        }
         return value||v;
       }
     }
