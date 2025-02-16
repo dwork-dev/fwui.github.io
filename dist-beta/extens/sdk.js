@@ -1049,7 +1049,7 @@ function dropFile(el,options){
   }
   el.dropfile=document.createElement("input");
   dfm.append(el.dropfile);
-  
+
   if(typeof options.change=="function"){
     el.onclick=selectFile;
   }
@@ -1057,7 +1057,7 @@ function dropFile(el,options){
     if(!el._input){
       el._input = document.createElement("input");
       el._input.setAttribute("type","file");
-      el.body.append(el._input);
+      dfm.append(el._input);
       el._input.onchange=(evt)=>{
         typeof options.change=="function" && options.change([...el._input.files]);
         el._input.value="";
@@ -1065,7 +1065,7 @@ function dropFile(el,options){
     }
     el._input.click();
   }
-  
+
   el.dropfile.setAttribute("style","display:none;position:fixed;top:0;left:0;width:0;height:0;");
   el.dropfile.setAttribute("type","file");
   el.dropfile.setAttribute("multiple","");
@@ -1304,7 +1304,7 @@ function initDrag(element,options) {
     newLeft=posLeft;
     //var zoneOffset = element.getBoundingClientRect();
     //console.log("e",e)
-    
+
     element.style.top=(newTop)+"px";
     element.style.left=(newLeft)+"px";
     element.style.position = "fixed";
@@ -1332,7 +1332,7 @@ function initDrag(element,options) {
   function onmousemove(e) {
     e = e || window.event;
     e.preventDefault();
-    
+
     widthMove=mouseTop-e.y;
     heightMove=mouseLeft-e.x;
     newTop=posTop-(widthMove);
