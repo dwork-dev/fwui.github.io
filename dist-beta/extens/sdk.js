@@ -1019,19 +1019,19 @@ function date2F(d,format){
 /***
    {
       start: ()=>{
-        el.classList.add("dragover")
         console.log("start",event.x,event.y)
       },
       drop: (files)=>{
-        el.classList.remove("dragover")
         console.log("drop",files)
       },
       over: ()=>{
-        //console.log("over",event.x,event.y)
+        console.log("over",event.x,event.y)
       },
       leave: ()=>{
         console.log("leave",el)
-        el.classList.remove("dragover")
+      },
+      change: (files)=>{
+      	console.log("change on click select file",el)
       }
    }
 ***/
@@ -1049,6 +1049,23 @@ function dropFile(el,options){
   }
   el.dropfile=document.createElement("input");
   dfm.append(el.dropfile);
+  
+  if(typeof options.change=="function"){
+    el.onclick=selectFile;
+  }
+  function selectFile(evt){
+    if(!el._input){
+      el._input = document.createElement("input");
+      el._input.setAttribute("type","file");
+      el.body.append(el._input);
+      el._input.onchange=(evt)=>{
+        typeof options.change=="function" && options.change([...el._input.files]);
+        el._input.value="";
+      }
+    }
+    el._input.click();
+  }
+  
   el.dropfile.setAttribute("style","display:none;position:fixed;top:0;left:0;width:0;height:0;");
   el.dropfile.setAttribute("type","file");
   el.dropfile.setAttribute("multiple","");
